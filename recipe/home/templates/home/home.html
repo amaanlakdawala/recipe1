@@ -1,0 +1,146 @@
+{% include 'base.html' %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        margin-top: 0;
+        font-size: 24px;
+        color: #333;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    input[type="file"] {
+        width: calc(100% - 20px); /* Adjusted width */
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        display: block; /* Changed to block */
+        width: 100%; /* Added width */
+    }
+    .btn:hover {
+        background-color: #0056b3;
+    }
+    .container-table {
+            width: 80%;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #dddddd;
+        }
+        .delete{
+            background-color: red;
+        }
+        a{
+            color: white;
+        }
+</style>
+<div class="full">
+    <div class="search">
+        <form action="">
+        <label for="">Search</label>
+        <input name="search" type="text">
+        <button type="submit">Search</button>
+    </form>
+    </div>
+<div class="container">
+    <h2>Add Recipe</h2>
+    <form action="#" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="recipe_name">Recipe Name:</label>
+        <input type="text" id="recipe_name" name="recipe_name" required>
+
+        <label for="recipe_description">Recipe Description:</label>
+        <textarea id="recipe_description" name="recipe_description" rows="4" required></textarea>
+
+        <label for="recipe_image">Upload Image:</label>
+        <input type="file" id="recipe_image" name="recipe_image" accept="image/*" required>
+
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+
+
+
+<div class="container-table">
+    <h2>Recipe Table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Recipe Name</th>
+                <th>Recipe Description</th>
+                <th>Recipe Image</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Add rows dynamically here -->
+            {% for i in data %}
+            <tr>
+                <td>{{i.recipe_name}}</td>
+                <td>{{i.recipe_description}}</td>
+                <td>{{i.recipe_image}}</td>
+                <td><button class="delete"><a href="{% url 'delete' i.id %}">Delete</a></button>
+                    <button class="delete"><a href="{% url 'update' i.id %}">Update</a></button>
+                </td>
+            </tr>
+            {% endfor %}
+            <!-- <tr>
+                <td>Chicken Stir Fry</td>
+                <td>Stir-fried chicken with vegetables in a savory sauce, served over rice.</td>
+            </tr> -->
+        </tbody>
+    </table>
+</div>
+</div>
